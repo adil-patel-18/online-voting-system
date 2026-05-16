@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>online voting system</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+.header{
+background:#1d4ed8;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.header h2{
+font-weight:600;
+}
+.header a{
+color:#e0f2fe;
+text-decoration:none;
+font-weight:500;
+transition:0.3s;
+}
+
+.header a:hover{
+color:white;
+}
+
+.admin-name{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+font-weight:500;
+display:inline-block;
+text-align:center;
+transition:0.3s;
+}
+
+.admin-name:hover{
+background:#e0f2fe;
+}
+.logout-btn{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+font-weight:500;
+text-decoration:none;
+transition:0.3s;
+}
+.main{
+padding:40px;
+max-width:600px;
+margin:30px auto;
+}
+
+.verify-box{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.07);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #cbd5e1;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#1d4ed8;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+
+.success{
+margin-top:15px;
+padding:12px;
+background:#dcfce7;
+color:#166534;
+border-radius:8px;
+}
+
+.error{
+margin-top:15px;
+padding:12px;
+background:#fee2e2;
+color:#991b1b;
+border-radius:8px;
+}
+
+footer{
+margin-top:30px;
+color:#64748b;
+font-size:14px;
+text-align:center;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:25px;">
+    <h2 style="margin-right:30px;">Online Voting</h2>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/create_voter">Create Voter</a>
+    <a href="/search_voter">Search</a>
+    <a href="/verify_voter">Verify</a>
+     <a href="/edit_voter/<vid>">Edit Voter</a>
+
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="admin-name">Hello, {{admin}}</span>
+    <a href="/logout" class="logout-btn" style="color:#1d4ed8 ;">Logout</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="verify-box">
+    <form method="POST">
+      <input type="text" name="voter_id" placeholder="Enter Voter ID" required>
+      <button type="submit">Verify</button>
+    </form>
+
+    {% if status %}
+      {% if status == "Valid Voter ID" %}
+        <div class="success">{{status}}</div>
+      {% else %}
+        <div class="error">{{status}}</div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+<footer style="height: 40px; background-color:#1d4ed8;color: #dcfce7;margin-top: 260px; text-align: center; align-content: center;">
+Online Voting System 
+</footer>
+
+</body>
+</html>

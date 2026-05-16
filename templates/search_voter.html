@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>online voting system</title>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+
+.header{
+background:#1d4ed8;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.nav{
+display:flex;
+gap:25px;
+align-items:center;
+}
+
+.nav a{
+color:#e0f2fe;
+text-decoration:none;
+font-weight:500;
+transition:0.3s;
+}
+
+.nav a:hover{
+color:white;
+}
+
+.admin-name{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+}
+
+.logout{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+text-decoration:none;
+}
+.main{
+padding:30px 60px;
+}
+form{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+input{
+padding:10px;
+width:250px;
+border-radius:8px;
+border:1px solid #cbd5e1;
+}
+
+button{
+padding:10px 15px;
+background:#1d4ed8;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+table{
+width:100%;
+background:white;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+background:#1d4ed8;
+color:white;
+padding:12px;
+text-align:left;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #e2e8f0;
+}
+
+tr:hover{
+background:#f1f5f9;
+}
+
+a{
+color:#1d4ed8;
+text-decoration:none;
+}
+
+a:hover{
+text-decoration:underline;
+}
+footer{
+text-align:center;
+color:#f9fafe;
+padding:15px;
+font-size:14px;
+background:#2563eb;
+margin-top:40px;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="nav">
+    <h2 style="margin-right:30px;">Online Voting</h2>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/create_voter">Create Voter</a>
+    <a href="/verify_voter">Verify</a>
+     <a href="/edit_voter/<vid>">Edit Voter</a>
+
+
+  </div>
+  <div style="display:flex;align-items:center;gap:15px;">
+    <span class="admin-name">Hello, {{admin}}</span>
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</div>
+<div class="main">
+<h2>Search Voter</h2>
+
+<form method="POST">
+<input type="text" name="voter_id" placeholder="Enter Voter ID">
+<button>Search</button>
+</form>
+
+{% if voter %}
+<table>
+<tr>
+<th>Name</th>
+<th>Voter ID</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+<tr>
+<td>{{voter[2]}}</td>
+<td>{{voter[1]}}</td>
+<td>
+  {% if voter[7] == 1 or voter[7] == '1' or voter[7] == True %}
+    Yes
+  {% else %}
+    No
+  {% endif %}
+</td>
+<td>
+<a href="/edit_voter/{{voter[1]}}">Edit</a> |
+<a href="/delete_voter/{{voter[1]}}">Delete</a>
+</td>
+</tr>
+</table>
+{% endif %}
+
+<footer>© 2026 Online Voting System</footer>
+</div>
+</body>
+</html>

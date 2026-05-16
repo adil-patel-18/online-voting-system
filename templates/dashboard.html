@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>online voting system</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+.header{
+background:#1d4ed8;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.nav{
+display:flex;
+gap:25px;
+align-items:center;
+}
+
+.nav a{
+color:#e0f2fe;
+text-decoration:none;
+font-weight:500;
+transition:0.3s;
+}
+
+.nav a:hover{
+color:white;
+}
+
+.admin-name{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+}
+
+.logout{
+background:white;
+color:#1d4ed8;
+padding:6px 15px;
+border-radius:20px;
+font-size:14px;
+text-decoration:none;
+}
+.main{
+padding:30px 60px;
+}
+
+.cards{
+display:flex;
+gap:25px;
+margin-bottom:40px;
+}
+
+.card{
+flex:1;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.07);
+transition:0.3s;
+}
+
+.card h3{
+color:#64748b;
+margin-bottom:8px;
+}
+
+.card h1{
+color:#1d4ed8;
+font-size:34px;
+}
+.section{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.07);
+margin-bottom:40px;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th{
+background:#1d4ed8;
+color:white;
+padding:12px;
+text-align:left;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #e2e8f0;
+}
+
+tr:hover{
+background:#f1f5f9;
+}
+footer{
+text-align:center;
+color:#f9fafe;
+padding:15px;
+font-size:14px;
+background:#2563eb;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="nav">
+    <h2 style="margin-right:30px;">Online Voting</h2>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/create_voter">Create Voter</a>
+    <a href="/search_voter">Search</a>
+    <a href="/verify_voter">Verify</a>
+    <a href="/edit_voter/<vid>">Edit Voter</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:15px;">
+    <span class="admin-name">Hello, {{admin}}</span>
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="cards">
+    <div class="card">
+      <h3>Total Voters</h3>
+      <h1>{{total_voters}}</h1>
+    </div>
+    <div class="card">
+      <h3>Total Votes Cast</h3>
+      <h1>{{total_votes}}</h1>
+    </div>
+    <div class="card">
+      <h3>Vote Summary</h3>
+      <h1>{{total_votes}} / {{total_voters}}</h1>
+    </div>
+  </div>
+  <div class="section">
+    <h3>Vote Distribution</h3>
+    <canvas id="voteChart" style="width:100%; max-width:1500px; height:250px; margin-top:20px;"></canvas>
+  </div>
+
+  <div class="section">
+    <h3>Recent Voters</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Voter ID</th>
+        <th>Voted</th>
+        <th>Party</th>
+      </tr>
+      {% for r in recent %}
+      <tr>
+        <td>{{ r[2] }}</td>
+        <td>{{ r[1] }}</td>
+        <td>
+          {% if r[7] == 1 or r[7] == '1' or r[7] == True %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
+        </td>
+        <td>{{ r[8] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+
+<footer>
+© 2026 Online Voting System
+</footer>
+
+<!-- graph kay liya link ha chat js say -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('voteChart');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: ['BJP','Congress','AIMIM','AAP'],
+datasets: [{
+label: 'Votes',
+data: [
+{{results['BJP']}},
+{{results['Congress']}},
+{{results['AIMIM']}},
+{{results['AAP']}}
+],
+backgroundColor: [
+'#f97316',
+'#2563eb',
+'#16a34a',
+'#7c3aed'
+],
+barThickness: 60
+}]
+},
+options: {
+responsive: true,
+plugins: {
+legend: { display: false }
+},
+scales: {
+y: { beginAtZero: true }
+}
+}
+});
+</script>
+
+</body>
+</html>
